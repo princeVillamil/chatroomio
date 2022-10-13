@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
 
 import Hero from './pages/Hero'
 import Login from './pages/Login'
+import Signup from './pages/Signup';
+import MainChatHome from './pages/MainChatHome';
 
 function App() {
   return (
@@ -14,7 +16,11 @@ function App() {
 
             <Route path='/' element={<Hero/>}/>
 
-            <Route path='/login' element={<Login/>}></Route>
+            <Route path='/login' element={<Login/>}/>
+
+            <Route path='/signup' element={<Signup/>}/>
+
+            <Route path='/messages' element={<MainChatHome/>}/>
 
             {/* <Route path='/login' element={<Login/>}/>
 
