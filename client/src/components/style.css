@@ -18,3 +18,9 @@
 .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
   border-radius: 0.25rem;
 }
+@media all and (max-width: 768px)
+{
+  #Chat{
+    width: 100%;
+  }
+}

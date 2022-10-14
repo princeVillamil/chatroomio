@@ -4,12 +4,12 @@ import ContactsUser from '../components/ContactsUser'
 import ChatUI from "../components/ChatUI"
 
 export default function MainChatHome() {
-  let placeHolderUser = {
-    userName: 'userName',
+  let userInfo = {
+    userName: 'YourUsernameSuperLong',
     email: 'email@email.com',
     password: 'Password****',
     contacts: ['id', 'id'],
-    pfp: 'pic',
+    pfp: 'https://source.unsplash.com/40x40/?portrait?1',
     _id: 'Id',
     cloudInaryId: 'ID',
     isOnline: true,
@@ -80,6 +80,7 @@ export default function MainChatHome() {
   let [darkMode, setDarkMode] = useState(true)
   let [isDashboardShow, setIsDashboardShow] = useState(true)
   let [dashboardPosition, setDashboardPosition] = useState(0)
+  let [chatWidth, setChatWidth] = useState('calc(100% - 230px)')
 
 
 
@@ -94,17 +95,19 @@ export default function MainChatHome() {
 	}, [darkMode])
   useEffect(()=>{
     if(isDashboardShow){
-      setDashboardPosition(0)
+      setDashboardPosition('0')
+      window.innerWidth >= 768 ? setChatWidth('calc(100% - 230px)') : setChatWidth('100%')
       return
     }
-    setDashboardPosition(64)
+    setDashboardPosition('64')
+    setChatWidth('100%')
   }, [isDashboardShow])
 
 
 
   return (
     <section className="w-full min-h-screen bg-white dark:bg-gray-900">
-      <div id="sidebar" className={`z-10 overflow-y-scroll transition duration-300 -translate-x-${dashboardPosition} fixed bg-gray-100 rounded-md flex flex-col h-full p-3 w-60 dark:bg-gray-900 dark:text-gray-100`}>
+      <div id="sidebar" className={`z-20 overflow-y-scroll transition duration-300 -translate-x-${dashboardPosition} fixed bg-gray-100 rounded-md flex flex-col h-full p-3 w-60 dark:bg-gray-900 dark:text-gray-100`}>
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h2>ChatRoomIo</h2>
@@ -133,12 +136,6 @@ export default function MainChatHome() {
                   return <ContactsUser key={`User${i}`} user={user}/>
                 })
               }
-              {/* <ContactsUser/>
-              <ContactsUser/>
-              <ContactsUser/>
-              <ContactsUser/>
-              <ContactsUser/>
-              <ContactsUser/> */}
             </ul>
             <ul className="pt-4 pb-2 space-y-1 text-sm">
               <li className="rounded-sm mb-1">
@@ -171,15 +168,20 @@ export default function MainChatHome() {
           </div>
         </div>
         <div className="flex p-2 mt-12 space-x-4 justify-self-end">
-          <img src="https://source.unsplash.com/100x100/?portrait" alt="" className="w-12 h-12 rounded-full dark:bg-gray-500" />
+          <img src={userInfo.pfp} alt="" className="w-12 h-12 rounded-full dark:bg-gray-500" />
           <div>
-            <h2 className="text-lg font-semibold">UserName</h2>
+            <h2 className="text-lg font-semibold">{userInfo.userName.length >= 15 ? userInfo.userName.slice(0, 10) + '...' : userInfo.userName}</h2>
             <button className='absolute hover:border-b-2 hover:border-gray-900 dark:hover:border-b-2 dark:hover:border-white'>
-              ID: <span>ThisIsMyId</span>
+              Email: <span>{userInfo.email.length >= 15 ? userInfo.email.slice(0, 10) + '...' : userInfo.email}</span>
             </button>
           </div>
         </div>
       </div>
+      <button className={`z-10 fixed transition top-5 left-5 duration-300 ${isDashboardShow ? '-translate-x-10': ''}`} onClick={e=>setIsDashboardShow(!isDashboardShow)}>
+          <svg className="w-6 h-6 text-gray-800 dark:fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z" />
+          </svg>
+      </button>
 
       {/* <div className="container relative flex flex-col min-h-screen px-6 py-8 mx-auto">
         <button className={`fixed transition inset-x-10 duration-300 ${isDashboardShow ? '-translate-x-10': ''}`} onClick={e=>setIsDashboardShow(!isDashboardShow)}>
@@ -189,7 +191,7 @@ export default function MainChatHome() {
         </button>
       </div> */}
 
-      <ChatUI/>
+      <ChatUI chatWidth={chatWidth} userInfo={userInfo}/>
 
     </section>
   )
